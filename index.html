@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Server-Sent Events</title>
+</head>
+<body>
+  <h1>Server-Sent Events Demo</h1>
+  <div id="content"></div>
+
+  <script>
+    const eventSource = new EventSource('http://localhost:8000/events');
+
+    eventSource.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+      console.log('Received data:', data);
+
+      const contentDiv = document.getElementById('content');
+      contentDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    };
+
+    eventSource.onerror = function(err) {
+      console.error('EventSource failed:', err);
+    };
+  </script>
+</body>
+</html>
