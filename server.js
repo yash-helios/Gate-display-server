@@ -6,7 +6,7 @@ const app = express();
 
 
 var corsOptions = {
-  origin: "https://gateentry.heliostechsolutions.in/",
+  origin: "https://gateentry.heliostechsolutions.in",
   credentials: true,
   optionsSucessStatus:200
 };
