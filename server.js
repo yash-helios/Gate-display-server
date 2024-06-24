@@ -11,7 +11,7 @@ var corsOptions = {
   optionsSucessStatus:200
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 
