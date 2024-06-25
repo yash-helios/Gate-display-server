@@ -30,10 +30,9 @@ const updateData = (newData) => {
 app.post("/webhook", async (req, res) => {
   var jsonData = req.body;
 
-  console.log(jsonData);
   // const preCheckResponse
 
-  console.log("Received data from handheld device: ", jsonData);
+ 
 
   updateData(jsonData);
 
@@ -47,9 +46,10 @@ app.get("/events", (req, res) => {
   res.flushHeaders();
   // Immediately send a comment to flush headers
   res.write(":\n\n");
+  var intervalId;
 
   try{
-    const intervalId = setInterval(() => {
+    intervalId = setInterval(() => {
       if (newDataAvailable) {
         res.write(`data: ${JSON.stringify(data)}\n\n`);
         newDataAvailable = false; // Reset flag after sending data
