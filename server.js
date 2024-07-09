@@ -44,6 +44,8 @@ app.get("/events", (req, res) => {
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
   res.flushHeaders();
+  const clientId = Date.now();
+  clients.push({ clientId, res });
   // Immediately send a comment to flush headers
   res.write(":\n\n");
   var intervalId;
@@ -51,7 +53,7 @@ app.get("/events", (req, res) => {
   try{
     intervalId = setInterval(() => {
       if (newDataAvailable) {
-        res.write(`data: ${JSON.stringify(data)}\n\n`);
+       clients.forEach((client)=>client.res.write(`data: ${JSON.stringify(data)}\n\n`));
         newDataAvailable = false; // Reset flag after sending data
       }
     }, 1000);
@@ -62,8 +64,7 @@ app.get("/events", (req, res) => {
   }
   
 
-  const clientId = Date.now();
-  clients.push({ clientId, res });
+  
 
   res.on("close", () => {
     clearInterval(intervalId); // Clear interval when client disconnects
